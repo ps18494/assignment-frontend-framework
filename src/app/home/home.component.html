@@ -1,0 +1,67 @@
+<section class="mb-4" *ngIf="current">
+  <div class="relative">
+    <div class="flex justify-around w-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+      <button (click)="previous()" class="hover:bg-black hover:rounded-full text-white opacity-70">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+          <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+        </svg>
+      </button>
+      <button (click)="togglePlay()" *ngIf="!current.playing" class="hover:bg-black hover:rounded-full text-white opacity-70" >
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+          <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
+        </svg>
+      </button>
+      <button (click)="togglePlay()" *ngIf="current.playing" class="hover:bg-black hover:rounded-full text-white opacity-70" >
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+          <path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"/>
+        </svg>
+      </button>
+      <button (click)="next()" class="hover:bg-black hover:rounded-full text-white opacity-70">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
+          <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+        </svg>
+      </button>
+    </div>
+    <a [routerLink]="['/songs', current.id]">
+      <div class="text-center w-full absolute top-0 p-2 text-white">
+        <h2>{{ current.title }}</h2>
+        <p>{{ current.artist }}</p>
+      </div>
+    </a>
+    <div class="hover:bg-black/60 w-full absolute bottom-0 p-2">
+      <a routerLink="/index" [queryParams]="{tag: tag}"  *ngFor="let tag of current['tags']">
+        <span class="hover:opacity-100 text-white opacity-30">
+          #{{ tag }}
+        </span>
+      </a>
+    </div>
+    <img src="{{ASSET_THUMBNAILS}}{{ current.thumbnail }}" alt="">
+  </div>
+</section>
+
+<section class="flex flex-wrap">
+  <div class="w-1/2" *ngFor="let song of songs">
+
+      <div>
+        <div class="relative">
+          <button (click)="play(song)" *ngIf="!song.playing" class="hover:bg-black hover:p-6 hover:rounded-full text-white opacity-70 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+              <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
+            </svg>
+          </button>
+          <button (click)="pause()" *ngIf="song.playing" class="hover:bg-black hover:p-6 hover:rounded-full text-white opacity-70 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+              <path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"/>
+            </svg>
+          </button>
+          <img src="{{ASSET_THUMBNAILS}}{{ song.thumbnail }}" alt="">
+          <a  [routerLink]="['/songs', song.id]">
+            <div class="bg-black opacity-30 hover:opacity-100 w-full absolute top-0 p-2 text-white">
+              <h2>{{ song.title }}</h2>
+              <p>{{ song.artist }}</p>
+            </div>
+          </a>
+        </div>
+      </div>
+  </div>
+</section>
